@@ -11,7 +11,7 @@ export const signup = async (req,res) => {
             email: req.body.email,
         });
         if (userEmail) {
-            return res.status(500).json({
+            return res.status(404).json({
                 status: "500",
                 message: "Email already exist",
             });
@@ -40,6 +40,8 @@ export const signup = async (req,res) => {
         })
     }
 }
+// user log in
+
 export const userLogin = async (req, res) =>{
     try {
         const userLogin = await users.findOne({
@@ -78,3 +80,64 @@ export const userLogin = async (req, res) =>{
         })
     }
 };
+
+// select users
+
+export const getUsers = async (req,res) =>{
+    try{
+        const getUsers = await users.find();
+        return res.status(200).json({
+            status: "200",
+            message: "data selected successfully",
+            data: getUsers
+        })
+    }
+    catch(error){
+        return res.status(404).json({
+            status: "404",
+            message: "data not found",
+            error: error.message
+        })
+    }
+}
+
+
+//  Update user
+
+export const updateUser = async (req,res) =>{
+    try{
+    const {id} = req.params;
+    const {first,lastname,email,password,profile,role} = req.body;
+    const checkId = await users.findById(id);
+    if(!checkId) {
+        return res.status(500).json({
+            status: 500,
+            message: "user not found",
+        })
+    }
+    let result;
+    if(req.file) result = await uploadToCloud(req.file,res)
+    const updatedData = users.findByIdAndUpdate(id,{
+first,
+lastname,
+email,
+password,
+profile: result.secure_url,
+role
+    });
+    return res.status(200).json({
+        status:200,
+        message:"data updated successfull",
+        data:updatedData
+    })
+
+    }
+    catch(error) {
+        return res.status.json({
+            status:200,
+            message:"data failed to update",
+            error:error.message
+        })
+    }
+
+}

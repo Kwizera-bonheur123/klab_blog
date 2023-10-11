@@ -97,14 +97,23 @@ export const deleteBlog = async (req,res) => {
 export const updateBlog = async(req,res) => {
     try{
         const {id} = req.params;
-        const {title,header,content} = req.body;
+        const {title,subheader,content,blogImage} = req.body;
         const checkId = await blog.findById(id);
         if(!checkId){
             return res.status(404).json({
                 message: "This blog Not Found "
             })
         }
-        const updateB= await blog.findByIdAndUpdate(id,{title,header,content});
+        let result;
+        if(req.file) result = await uploadToCloud(req.file,res);
+    
+        const updateB = await blog.findByIdAndUpdate(id,{
+            title,
+            subheader,
+            content,
+            blogImage: result?.secure_url,
+
+        });
         return res.status(200).json({
             status : "success",
             message : "well Data Updated!",
