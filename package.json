@@ -10,8 +10,8 @@
     "start": "npm run build && node ./build/src/index.js",
     "start:dev": "nodemon --exec babel-node ./src/index.js",
     "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel -d ./build ./src/index.js -s",
-    "build": "npm run clean && npm run build-babel"
+    "build-babel": "babel -d ./build/src/ ./src/ -s",
+    "build": "npm run build-babel"
   },
   "author": "k.dot",
   "license": "ISC",
