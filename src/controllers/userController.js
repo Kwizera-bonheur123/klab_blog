@@ -104,40 +104,38 @@ export const getUsers = async (req,res) =>{
 
 //  Update user
 
-export const updateUser = async (req,res) =>{
+export const updateUser = async(req,res) => {
     try{
-    const {id} = req.params;
-    const {first,lastname,email,password,profile,role} = req.body;
-    const checkId = await users.findById(id);
-    if(!checkId) {
+        const {id} = req.params;
+        const {first,lastname,email,password,profile,role} = req.body;
+        const checkId = await users.findById(id);
+        if(!checkId){
+            return res.status(404).json({
+                message: "user not found"
+            })
+        }
+        let result;
+        if(req.file) result = await uploadToCloud(req.file,res);
+        const updateU = await users.findByIdAndUpdate(id,{
+            first,
+            lastname,
+            email,
+            password,
+            profile: result?.secure_url,
+            role
+        });
+        return res.status(200).json({
+            status:"success",
+            message: "user updated successfully",
+            data:updateU
+
+        })
+    }
+    catch(error){
         return res.status(500).json({
-            status: 500,
-            message: "user not found",
-        })
-    }
-    let result;
-    if(req.file) result = await uploadToCloud(req.file,res)
-    const updatedData = users.findByIdAndUpdate(id,{
-first,
-lastname,
-email,
-password,
-profile: result.secure_url,
-role
-    });
-    return res.status(200).json({
-        status:200,
-        message:"data updated successfull",
-        data:updatedData
-    })
-
-    }
-    catch(error) {
-        return res.status.json({
-            status:200,
-            message:"data failed to update",
+            message:"failed to update user",
             error:error.message
-        })
-    }
+        });
 
+    }
 }
