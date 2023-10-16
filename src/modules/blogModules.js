@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const blogSchema = new mongoose.Schema({
     title:{
@@ -15,16 +15,17 @@ const blogSchema = new mongoose.Schema({
     },
     author:{
         type: String,
-        require: false
+        require: true
     },
     authorP:{
         type: String,
-        require: false
+        require: true
     },
     blogImage:{
         type: String,
-        require: false
-    }
+        require: true
+    },
+    comments: []
 });
 
 const blog = mongoose.model("blogs",blogSchema);

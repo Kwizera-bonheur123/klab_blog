@@ -1,7 +1,7 @@
 import blog from "../modules/blogModules";
 import {uploadToCloud} from "../helper/cloud";
-
-// crateBlog
+import { uuid } from 'uuidv4';
+// createBlog
 
 export const createBlog = async (req,res) => {
     try{
@@ -18,6 +18,8 @@ export const createBlog = async (req,res) => {
         }
         let result;
         if(req.file) result = await uploadToCloud(req.file,res);
+
+        const { lastname, profile } = req.users;
     
         const newBlog = await blog.create({
             title,
@@ -75,8 +77,7 @@ export const deleteBlog = async (req,res) => {
         const deleteB = await blog.findByIdAndDelete(id);
         return res.status(200).json({
             status : "sucess",
-            message : "data deleted well",
-            aunthor: req.users.firstname,
+            message : "data deleted successfully",
             data : deleteB
 
         })
@@ -128,3 +129,50 @@ export const updateBlog = async(req,res) => {
     }
 
 }
+
+
+export const addComment = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const {content} = req.body;
+
+      console.log(uuid())
+      
+      const checkId = await blog.findById(id);
+
+      if(!checkId){
+        return res.status(404).json({
+            message: "This blog Not Found "
+        })
+    }
+
+    if(req.file) result = await uploadToCloud(req.file,res);
+  
+      // Find the blog by ID and add the comment
+      const newBlog = await blog.findOneAndUpdate(
+        { _id: id },
+        {
+          $push: {
+            comments: { id: uuid(),
+                content,
+                author:req.users.lastname,
+                authorP: req.users.profile  },
+          },
+        },
+        { new: true }
+      );
+  
+      return res.status(201).json({
+        status: "201",
+        message: "Comment added successfully",
+        data: newBlog.comments.reverse(),
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: "500",
+        message: "Failed to add a comment",
+        error: error.message,
+      });
+    }
+  };
+  

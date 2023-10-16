@@ -8,7 +8,7 @@ mongoose.connect(process.env.dbConnection)
     })
    .catch((err)=> console.log(err))
 
-   const PORT = process.env.PORT || 4300;
+   const PORT = process.env.PORT || 4100;
 
    app.listen(process.env.PORT, ()=>{
     console.log(`Server running on PORT: http://localhost:${PORT}`);
