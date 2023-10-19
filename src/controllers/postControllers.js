@@ -1,14 +1,14 @@
-import blog from "../Model/blogModules";
+import post from "../Model/postModel";
 import {uploadToCloud} from "../helper/cloud";
-import { Comment } from "../Model/blogModules";
+import { Comment } from "../Model/postModel";
 
-// createBlog
+// createpost
 
-export const createBlog = async (req,res) => {
+export const createpost = async (req,res) => {
     try{
-        const {title,subheader,content,blogImage} = req.body;
+        const {title,subheader,content,postImage} = req.body;
         // const {firstname, lastname, email, password, profile} = req.body;
-        const existingTitle = await blog.findOne({
+        const existingTitle = await post.findOne({
             title: req.body.title,
         });
         if (existingTitle) {
@@ -22,17 +22,17 @@ export const createBlog = async (req,res) => {
 
         const { lastname, profile } = req.users;
     
-        const newBlog = await blog.create({
+        const newpost = await post.create({
             title,
             subheader,
             content,
-            blogImage: result?.secure_url,
+            postImage: result?.secure_url,
             author:req.users._id
         });
         return res.status(201).json({
             status: "201",
-            message: "Blog Created Successfully",
-            data: newBlog
+            message: "post Created Successfully",
+            data: newpost
         })
     } catch (error) {
         return res.status(500).json({
@@ -43,15 +43,15 @@ export const createBlog = async (req,res) => {
     }
 }
 
-// select a blog
+// select a post
 
-export const selectBlog = async (req, res) => {
+export const selectpost = async (req, res) => {
     try {
-      const getBlog = await blog.find().populate({path:'comments', populate:{path:'author',select:'first lastname profile email'}}).populate({path:'author', select: 'first lastname profile'});
+      const getpost = await post.find().populate({path:'comments', populate:{path:'author',select:'first lastname profile email'}}).populate({path:'author', select: 'first lastname profile'});
       return res.status(200).json({
         status: "Success",
         message: "Data Retrieved Successfully",
-        data: getBlog,
+        data: getpost,
       });
     } catch (error) {
       return res.status(500).json({
@@ -65,11 +65,11 @@ export const selectBlog = async (req, res) => {
 
 export const selectComments=async(req,res )=> {
     try{
-        const getBlog = await comments.find();
+        const getpost = await comments.find();
         return res.status(200).json({
             status: "Sucess",
             message:"Data Retrieved Successfully",
-            data:getBlog
+            data:getpost
         })
     }
     catch(error){
@@ -83,16 +83,17 @@ export const selectComments=async(req,res )=> {
 }
 
 // delete
-export const deleteBlog = async (req,res) => {
+export const deletepost = async (req,res) => {
     try{
         const {id} = req.params
-        const checkId = await blog.findById(id);
+        const checkId = await post.findById(id);
         if(!checkId){
             return  res.status(404).json({
                 message:"Id Not Found!"
             })
         }
-        const deleteB = await blog.findByIdAndDelete(id);
+        const deleteC = await Comment.deleteMany({postId:id})
+        const deleteB = await post.findByIdAndDelete(id);
         return res.status(200).json({
             status : "sucess",
             message : "data deleted successfully",
@@ -114,10 +115,10 @@ export const deleteBlog = async (req,res) => {
 export const selectById = async (req,res) => {
     try{
         const {id} = req.params
-        const checkId = await blog.findById(id).populate({path:'comments', select: 'content author'});
+        const checkId = await post.findById(id).populate({path:'comments', select: 'content author'});
         if(!checkId){
             return  res.status(404).json({
-                message:"Post Not Found!"
+                message:"post Not Found!"
             })
         }
         return res.status(200).json({
@@ -140,24 +141,24 @@ export const selectById = async (req,res) => {
 
 // update 
 
-export const updateBlog = async(req,res) => {
+export const updatepost = async(req,res) => {
     try{
         const {id} = req.params;
-        const {title,subheader,content,blogImage} = req.body;
-        const checkId = await blog.findById(id);
+        const {title,subheader,content,postImage} = req.body;
+        const checkId = await post.findById(id);
         if(!checkId){
             return res.status(404).json({
-                message: "This blog Not Found "
+                message: "This post Not Found "
             })
         }
         let result;
         if(req.file) result = await uploadToCloud(req.file,res);
     
-        const updateB = await blog.findByIdAndUpdate(id,{
+        const updateB = await post.findByIdAndUpdate(id,{
             title,
             subheader,
             content,
-            blogImage: result?.secure_url,
+            postImage: result?.secure_url,
 
         });
         return res.status(200).json({
@@ -181,22 +182,22 @@ export const addComment = async (req,res) =>{
     
         // Create a new comment
         const newComment = await Comment.create({
-          blogId:id,
+          postId:id,
           content: req.body.content,
           author: req.users._id, // Assuming you have an authenticated user
 
         });
     
-        // Find the corresponding blog post
-        const checkId = await blog.findById(id);
+        // Find the corresponding post post
+        const checkId = await post.findById(id);
         if(!checkId){
             return res.status(404).json({
-                message: "This blog Not Found "
+                message: "This post Not Found "
             })
         }
     
-        // Add the comment to the blog's comments array
-        const updatedBlog = await blog.findByIdAndUpdate(
+        // Add the comment to the post's comments array
+        const updatedpost = await post.findByIdAndUpdate(
           id,
           {
             $push: { comments: newComment._id },

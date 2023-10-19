@@ -10,7 +10,7 @@ import swaggerUi from "swagger-ui-express";
 
 // Routes
 
-import blogRoutes from "./routes/blogRoutes";
+import postRoutes from "./routes/postRoutes";
 import userRoutes from "./routes/userRoutes";
 
 const app = express();
@@ -22,12 +22,12 @@ const options = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'Blog API Documentation',
+      title: 'post API Documentation',
       version: '1.0.0',
       description: 'Documentation for your Node.js API using Swagger',
     },
     servers:[{
-        url:"https://blog-6hj4.onrender.com"
+        url:"https://post-6hj4.onrender.com"
     }],
     security: [
       {
@@ -96,7 +96,7 @@ app.use("/Docs",swaggerUi.serve,swaggerUi.setup(swaggerSpec))
 app.use(express.json());
 
 
-app.use("/api/blog", blogRoutes)
+app.use("/api/post", postRoutes)
 app.use("/api/user", userRoutes)
 
 app.use("/", (req,res)=>{
