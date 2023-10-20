@@ -27,7 +27,7 @@ const options = {
       description: 'Documentation for your Node.js API using Swagger',
     },
     servers:[{
-        url:"https://post-6hj4.onrender.com"
+        url:"http://localhost:4500/"
     }],
     security: [
       {

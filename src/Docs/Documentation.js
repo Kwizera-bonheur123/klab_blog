@@ -22,14 +22,14 @@
 
 
 
-// Get all blogs
+// Get all posts
 /**
  * @swagger
- * /api/blog/select:
+ * /api/post/select:
  *   get:
  *     tags:
- *       - Blog
- *     description: Returns all Blogs
+ *       - post
+ *     description: Returns all posts
  *     produces:
  *       - application/json
  *     responses:
@@ -42,24 +42,24 @@
  */
 
 
-//Select one blog
+//Select one post
 /**
  * @swagger
- * /api/blog/selectById/{id}:
+ * /api/post/selectById/{id}:
  *   get:
- *     summary: Delete a blog post by ID
+ *     summary: Delete a post post by ID
  *     tags:
- *       - Blog
+ *       - post
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Blog ID to delete
+ *         description: post ID to delete
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Blog post deleted successfully
+ *         description: post post deleted successfully
  *         content:
  *           application/json:
  *             schema:
@@ -70,21 +70,21 @@
  *                   example: "200"
  *                 message:
  *                   type: string
- *                   example: "Blog post deleted successfully"
+ *                   example: "post post deleted successfully"
  *                 data:
  *                   type: object
  *                   properties:
  *                     bogImage:
  *                       type: string
- *                       example: http://example.com/blog_image.jpg
- *                     blogTitle:
+ *                       example: http://example.com/post_image.jpg
+ *                     postTitle:
  *                       type: string
- *                       example: "Title of the Blog"
- *                     blogContent:
+ *                       example: "Title of the post"
+ *                     postContent:
  *                       type: string
- *                       example: "Content of the blog post"
+ *                       example: "Content of the post post"
  *       404:
- *         description: Blog post not found
+ *         description: post post not found
  *         content:
  *           application/json:
  *             schema:
@@ -95,32 +95,32 @@
  *                   example: "404"
  *                 message:
  *                   type: string
- *                   example: "Blog post not found"
+ *                   example: "post post not found"
  */
 
 
 
 
 
-// Delete blog by Id
+// Delete post by Id
 
 /**
  * @swagger
- * /api/blog/delete/{id}:
+ * /api/post/delete/{id}:
  *   delete:
- *     summary: Delete a blog post by ID
+ *     summary: Delete a post post by ID
  *     tags:
- *       - Blog
+ *       - post
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Blog ID to delete
+ *         description: post ID to delete
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Blog post deleted successfully
+ *         description: post post deleted successfully
  *         content:
  *           application/json:
  *             schema:
@@ -131,21 +131,21 @@
  *                   example: "200"
  *                 message:
  *                   type: string
- *                   example: "Blog post deleted successfully"
+ *                   example: "post post deleted successfully"
  *                 data:
  *                   type: object
  *                   properties:
  *                     bogImage:
  *                       type: string
- *                       example: http://example.com/blog_image.jpg
- *                     blogTitle:
+ *                       example: http://example.com/post_image.jpg
+ *                     postTitle:
  *                       type: string
- *                       example: "Title of the Blog"
- *                     blogContent:
+ *                       example: "Title of the post"
+ *                     postContent:
  *                       type: string
- *                       example: "Content of the blog post"
+ *                       example: "Content of the post post"
  *       404:
- *         description: Blog post not found
+ *         description: post post not found
  *         content:
  *           application/json:
  *             schema:
@@ -156,7 +156,7 @@
  *                   example: "404"
  *                 message:
  *                   type: string
- *                   example: "Blog post not found"
+ *                   example: "post post not found"
  */
 
 
@@ -248,16 +248,16 @@
 /**
  * @swagger
  * tags:
- *   name: Blog
- *   description: Operations related to blogs
+ *   name: post
+ *   description: Operations related to posts
  */
 
 /**
  * @swagger
- * /api/blog/create:
+ * /api/post/create:
  *   post:
- *     summary: Create a new blog
- *     tags: [Blog]
+ *     summary: Create a new post
+ *     tags: [post]
  *     requestBody:
  *       content:
  *         multipart/form-data:
@@ -270,29 +270,29 @@
  *                 type: string
  *               content:
  *                 type: string
- *               blogImage:
+ *               postImage:
  *                 type: string
  *                 format: binary
  *     responses:
  *       201:
- *         description: Blog created successfully
+ *         description: post created successfully
  *       500:
- *         description: Failed to create a blog
+ *         description: Failed to create a post
  */
 
 
 /**
  * @swagger
- * /api/blog/update/{id}:
+ * /api/post/update/{id}:
  *   put:
- *     summary: Update a blog post by ID
+ *     summary: Update a post post by ID
  *     tags:
- *       - Blog
+ *       - post
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: Blog ID to update
+ *         description: post ID to update
  *         schema:
  *           type: string
  *     requestBody:
@@ -308,12 +308,12 @@
  *                 type: string
  *               content:
  *                 type: string
- *               blogImage:
+ *               postImage:
  *                 type: string
  *                 format: binary  
  *     responses:
  *       200:
- *         description: Blog post updated successfully
+ *         description: post post updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -324,9 +324,9 @@
  *                   example: "200"
  *                 message:
  *                   type: string
- *                   example: "Blog post updated successfully"
+ *                   example: "post post updated successfully"
  *       404:
- *         description: Blog post not found
+ *         description: post post not found
  *         content:
  *           application/json:
  *             schema:
@@ -337,7 +337,7 @@
  *                   example: "404"
  *                 message:
  *                   type: string
- *                   example: "Blog post not found"
+ *                   example: "post post not found"
  */
 
 
@@ -353,7 +353,7 @@
  *       - in: path
  *         name: id
  *         required: true
- *         description: Blog ID to update
+ *         description: post ID to update
  *         schema:
  *           type: string
  *     requestBody:
@@ -376,7 +376,7 @@
  *                 format: binary  
  *     responses:
  *       200:
- *         description: Blog post updated successfully
+ *         description: post post updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -387,9 +387,9 @@
  *                   example: "200"
  *                 message:
  *                   type: string
- *                   example: "Blog post updated successfully"
+ *                   example: "post post updated successfully"
  *       404:
- *         description: Blog post not found
+ *         description: post post not found
  *         content:
  *           application/json:
  *             schema:
@@ -400,7 +400,7 @@
  *                   example: "404"
  *                 message:
  *                   type: string
- *                   example: "Blog post not found"
+ *                   example: "post post not found"
  */
 
 
@@ -408,7 +408,7 @@
 
 /**
  * @swagger
- * /api/blog/comment/{id}:
+ * /api/post/comment/{id}:
  *   post:
  *     summary: Update the user's data
  *     tags:
@@ -417,7 +417,7 @@
  *       - in: path
  *         name: id
  *         required: true
- *         description: Blog ID to update
+ *         description: post ID to update
  *         schema:
  *           type: string
  *     requestBody:
@@ -431,7 +431,7 @@
  *                 type: string  
  *     responses:
  *       200:
- *         description: Blog post updated successfully
+ *         description: post post updated successfully
  *         content:
  *           application/json:
  *             schema:
@@ -442,9 +442,9 @@
  *                   example: "200"
  *                 message:
  *                   type: string
- *                   example: "Blog post updated successfully"
+ *                   example: "post post updated successfully"
  *       404:
- *         description: Blog post not found
+ *         description: post post not found
  *         content:
  *           application/json:
  *             schema:
@@ -455,6 +455,6 @@
  *                   example: "404"
  *                 message:
  *                   type: string
- *                   example: "Blog post not found"
+ *                   example: "post post not found"
  */
 
