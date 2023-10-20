@@ -7,7 +7,13 @@ import { Comment } from "../Model/postModel";
 export const createpost = async (req,res) => {
     try{
         const {title,subheader,content,postImage} = req.body;
-        // const {firstname, lastname, email, password, profile} = req.body;
+         // Validate the request body
+         if (!title || !subheader || !content || !postImage) {
+            return res.status(400).json({
+                status: "400",
+                message: "Missing required fields in the request body",
+            });
+        }
         const existingTitle = await post.findOne({
             title: req.body.title,
         });
@@ -61,11 +67,10 @@ export const selectpost = async (req, res) => {
       });
     }
   };
-
-
+ 
 export const selectComments=async(req,res )=> {
     try{
-        const getpost = await comments.find();
+        const getpost = await Comments.find();
         return res.status(200).json({
             status: "Sucess",
             message:"Data Retrieved Successfully",
@@ -86,6 +91,15 @@ export const selectComments=async(req,res )=> {
 export const deletepost = async (req,res) => {
     try{
         const {id} = req.params
+
+        // Validate the 'id' parameter
+        if (!id) {
+            return res.status(400).json({
+                status: "400",
+                message: "Missing 'id' parameter in the request",
+            });
+        }
+
         const checkId = await post.findById(id);
         if(!checkId){
             return  res.status(404).json({
@@ -114,6 +128,15 @@ export const deletepost = async (req,res) => {
 
 export const selectById = async (req,res) => {
     try{
+
+        // Validate the 'id' parameter
+        if (!id) {
+            return res.status(400).json({
+                status: "400",
+                message: "Missing 'id' parameter in the request",
+            });
+        }
+
         const {id} = req.params
         const checkId = await post.findById(id).populate({path:'comments', select: 'content author'});
         if(!checkId){
@@ -144,6 +167,15 @@ export const selectById = async (req,res) => {
 export const updatepost = async(req,res) => {
     try{
         const {id} = req.params;
+
+        // Validate the 'id' parameter
+        if (!id) {
+            return res.status(400).json({
+                status: "400",
+                message: "Missing 'id' parameter in the request",
+            });
+        }
+
         const {title,subheader,content,postImage} = req.body;
         const checkId = await post.findById(id);
         if(!checkId){
@@ -179,6 +211,14 @@ export const updatepost = async(req,res) => {
 export const addComment = async (req,res) =>{
     try {
         const { id } = req.params;
+
+        // Validate the 'id' parameter
+        if (!id) {
+            return res.status(400).json({
+                status: "400",
+                message: "Missing 'id' parameter in the request",
+            });
+        }
     
         // Create a new comment
         const newComment = await Comment.create({
