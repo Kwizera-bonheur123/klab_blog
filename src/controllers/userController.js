@@ -12,6 +12,11 @@ import { deleteU } from "../service/User";
 
 export const signup = async (req,res) => {
         const createdUser = newUser(req.body); 
+        return res.status(200).json({
+            status: "200",
+            message:"User created successfully ",
+            data: createdUser
+        })
 }
 // user log in
 
@@ -93,9 +98,20 @@ export const updateUser = async(req,res) => {
 }
 
 export const deleteUser = async (req,res) => {
+    try{
         const {id} = req.params
         const deleteB = await deleteU(id);
         return res.status(200).json({
             data : deleteB
         })
+
+    }
+    catch(error){
+        return res.status(500).json({
+            status : "failed",
+            message : "Failed To deletee",
+            error: error.message
+        })
+
+    }
 }

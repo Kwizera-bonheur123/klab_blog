@@ -6,7 +6,7 @@ export const newUser = async (userData) => {
         try{
 
             const createdUser = await users.create(userData);
-            return {status: 201, message: "User created successfully", data: createdUser};
+            return {status: 201, message: "User created successfully kiriyate", data: createdUser};
         } catch (error) {
             return {status: 500, message: "Data does not added",error:error.message}
         }

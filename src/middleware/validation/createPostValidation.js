@@ -1,4 +1,11 @@
 import post from "../../Model/postModel";
+import Joi from "joi";
+import users from "../../Model/userModel";
+
+const userSchema = Joi.object({
+    title: Joi.string().required(),
+    content: Joi.string().required(),
+  });
 
 export const createPostValidation = async (req, res, next) => {
 
@@ -16,45 +23,15 @@ export const createPostValidation = async (req, res, next) => {
         });
     }
 
-    if (!title || content) {
-        return res.status(400).json({
-            status: "400",
-            message: "Missing required fields in the request body",
-        });
+    const {error} = userSchema.validate({title, content});
+
+    if(error){
+        return res.status(404).json({
+            status: 404,
+            message: error.details[0].message
+        })
     }
-    
-    req.validatedData = { title, content };
+
     next();
 };
-
-export const createUserValidation = async (req, res, next) => {
-
-    const {first, lastname, email, password, profile} = req.body;
-    console.log(req.body);
-
-    // Validate the request body
-    if (!first || !lastname || !email || !password) {
-        return res.status(400).json({
-            status: "400",
-            message: "Missing required fields in the request body please provide inputs",
-        });
-    }
-    
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.match(emailRegex)) {
-        return res.status(400).json({
-            status: "400",
-            message: "Invalid email format",
-        });
-    }
-    if (password.length < 8) {
-        return res.status(400).json({
-            status: "400",
-            message: "Password must be at least 8 characters long",
-        });
-    }
-    next();
-};
-
-
+  

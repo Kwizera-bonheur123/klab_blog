@@ -7,7 +7,7 @@ import { createPostValidation } from "../middleware/validation/createPostValidat
 
 const postRoutes = express.Router();
 
-postRoutes.post("/create",createPostValidation,Authorization, fileUpload.single("postImage"), createpost);
+postRoutes.post("/create",Authorization, fileUpload.single("postImage"),createPostValidation, createpost);
 postRoutes.get("/select", selectpost);
 postRoutes.get("/selectById/:id", selectById);
 postRoutes.delete("/delete/:id",Authorization, deletepost);
