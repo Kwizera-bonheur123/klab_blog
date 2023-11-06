@@ -1,44 +1,22 @@
 import post from "../Model/postModel";
 import {uploadToCloud} from "../helper/cloud";
 import { Comment } from "../Model/postModel";
+import { newUser } from "../service/User";
 
 // createpost
 
 export const createpost = async (req,res) => {
+    console.log(req.body.title);
     try{
-        const {title,content,postImage} = req.body;
-         // Validate the request body
-         if (!title || !content ) {
-            return res.status(400).json({
-                status: "400",
-                message: "Missing required fields in the request body",
-            });
-        }
-        const existingTitle = await post.findOne({
-            title: req.body.title,
-        });
-        if (existingTitle) {
-            return res.status(500).json({
-                status: "500",
-                message: "Title already exist",
-            });
-        }
-        let result;
-        if(req.file) result = await uploadToCloud(req.file,res);
 
-        const { lastname, profile } = req.users;
-    
-        const newpost = await post.create({
-            title,
-            content,
-            postImage: result?.secure_url,
-            author:req.users._id
-        });
+        const cteatedUser = await newUser(req.body);
+
         return res.status(201).json({
-            status: "201",
-            message: "post Created Successfully",
-            data: newpost
-        })
+                status: "201",
+                message: "post Created Successfully",
+                data: cteatedUser
+            })
+
     } catch (error) {
         return res.status(500).json({
             status: "500",
