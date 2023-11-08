@@ -89,9 +89,9 @@ const swaggerSpec = swaggerJSDoc(options);
   // configuration
 
 app.use(cors());
-app.use(bodyParser.json());
 app.use(morgan("dev"));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use("/Docs",swaggerUi.serve,swaggerUi.setup(swaggerSpec))
 app.use(express.json());
 

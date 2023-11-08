@@ -1,6 +1,8 @@
 import { uploadToCloud } from "../helper/cloud";
 import bcrypt from 'bcrypt';
 import users from "../Model/userModel";
+import jwt from "jsonwebtoken";
+import {gensalt, hash} from "bcrypt";
 
 export const newUser = async (userData) => {
         try{
@@ -24,7 +26,7 @@ export const selectUsers = async () => {
     }
 
 }
-
+//Update user
 export const updateUsers = async(id, userData,file) =>{
     try {
 
@@ -76,6 +78,8 @@ export const updateUsers = async(id, userData,file) =>{
     }
 }
 
+//Delete user
+
 export const deleteU =async (id) => {
     try{
 
@@ -89,3 +93,29 @@ export const deleteU =async (id) => {
         return {status: 200,message:"Data deleted successfully",error:error.message}
     }
 }
+
+export const userLogin = async (email,password) =>{
+    try {
+        
+        const userLogin = await users.findOne({
+            email: email
+        });
+        if (!userLogin) {
+            return {status: 404, message: "User Not Found"}
+        }
+
+        const isMatch = bcrypt.compare(password, userLogin.password);
+        if(!isMatch) {
+            console.log("Incorect password");
+            return {status: 401,message:"Incorect Password"}
+        }
+        const token = jwt.sign(
+            {id:userLogin._id},
+            process.env.JWT_SECRET,
+            {expiresIn: process.env.EXPIRE_DATE}
+            );
+            return { data:userLogin,token:token}
+    } catch (error){
+        return {status:500,message:"Login Failed",error:error.message}
+    }
+};

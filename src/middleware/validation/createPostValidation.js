@@ -8,9 +8,7 @@ const userSchema = Joi.object({
   });
 
 export const createPostValidation = async (req, res, next) => {
-
-    console.log(req.body);
-
+    console.log("BNBNBNB", req.body)
     const { title, content, postImage } = req.body;
 
     // Check if a post with the same title already exists in the database
