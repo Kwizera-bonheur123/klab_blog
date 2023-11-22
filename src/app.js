@@ -24,7 +24,7 @@ const options = {
     info: {
       title: 'post API Documentation',
       version: '1.0.0',
-      description: 'Documentation for your Node.js API using Swagger',
+      description: 'Documentation for my Node.js API using Swagger',
     },
     servers:[{
         url:"https://blog-6hj4.onrender.com"
@@ -48,45 +48,6 @@ const options = {
 };
 
 const swaggerSpec = swaggerJSDoc(options);
-
-// swager configuration
-
-// const options = {
-//     swaggerDefinition: {
-//       openapi: "3.0.1",
-//       info: {
-//         title: "Eagle Spirit Academy Documentation",
-//         version: "1.0.0",
-//         description: "Welcome to the Eagle Spirit Academy API",
-//       },
-//       components: {
-//         securitySchemes: {
-//           bearerAuth: {
-//             type: "http",
-//             scheme: "bearer",
-//             name: "Authorization",
-//             in: "header",
-//             bearerFormat: "JWT",
-//           },
-//         },
-//       },
-//       security: [
-//         {
-//           bearerAuth: [],
-//         },
-//       ],
-//       servers: [
-//         {
-//           url: "http://localhost:4500",
-//         },
-//       ],
-//     },
-//     apis: ["./src/docs/*.js"],
-//   };
-  
-//   const specs = swaggerJSDoc(options);
-  
-  // configuration
 
 app.use(cors());
 app.use(morgan("dev"));

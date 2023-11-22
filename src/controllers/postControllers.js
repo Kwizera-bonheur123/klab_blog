@@ -1,5 +1,6 @@
 import { getPostById, newPost, getPost, changePost, postComment,removePost } from "../service/post";
 import { removeComment } from "../service/Comment";
+import { addLike } from "../service/like";
 
 // createpost
 export const createpost = async (req,res) => {
@@ -38,9 +39,7 @@ export const deletepost = async (req,res) => {
             message : "Failed To deletee",
             error: error.message
         })
-
-    }
-}
+    }}
 //select post by add
 export const selectById = async (req,res) => {
     try{
@@ -87,3 +86,15 @@ export const deleteComment = async (req,res) => {
             error: error.message
         })
     }}
+
+export const likes = async(req,res) =>{
+    try{
+        const addOrRemoveLike = addLike(req,res);
+    } catch(error){
+        res.status(200).json({
+            status:200,
+            message:"Fail to add like",
+            error:error.message
+        })
+    }
+}

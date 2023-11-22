@@ -1,10 +1,5 @@
-import users from "../Model/userModel";
-import {uploadToCloud} from "../helper/cloud";
 import { newUser } from "../service/User";
-import { selectUsers } from "../service/User";
-import { updateUsers } from "../service/User";
-import { deleteU } from "../service/User";
-import { userLogin } from "../service/User";
+import { deleteU, userLogin, selectUsers, updateUsers } from "../service/User";
 
 //create user
 export const signup = async (req,res) => {
@@ -60,7 +55,6 @@ export const deleteUser = async (req,res) => {
         return res.status(200).json({
             data : deleteB
         })
-
     }
     catch(error){
         return res.status(500).json({
