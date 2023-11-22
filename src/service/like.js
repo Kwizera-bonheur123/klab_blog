@@ -1,4 +1,5 @@
 import { Like } from "../Model/likeModel";
+import { unLike } from "../Model/unLikeModel";
 import post from "../Model/postModel";
 
 export const addLike = async (req,res) => {
@@ -14,25 +15,54 @@ export const addLike = async (req,res) => {
         })
     }
     const checkLike = await Like.findOne(autherId);
-    console.log(checkLike)
     if(checkLike){
         const deleteLike = await Like.findByIdAndDelete(checkLike._id);
         res.status(200).json({
             status: 200,
             message:"Like removed successfully",
-            data: deleteLike
+            data: addLike
+        })
+        
+    } else {
+        const checkUnLike = await unLike.findOne(autherId);
+        console.log(checkUnLike)
+        if(checkUnLike){
+        const deleteUnlike = await unLike.findByIdAndDelete(checkUnLike._id)    
+        const addLike = await Like.create({
+            author: req.users._id,
+            postId: id
+        })
+        const updatedpost = await post.findByIdAndUpdate(
+            id,
+            {
+              $push: { likes: addLike._id },
+            },
+            { new: true }
+          );
+        res.status(200).json({
+            status: 200,
+            message:"Like added successfully and delete it in unLike",
+            data: addLike
         })
     } else {
         const addLike = await Like.create({
             author: req.users._id,
             postId: id
         })
+        const updatedpost = await post.findByIdAndUpdate(
+            id,
+            {
+              $push: { likes: addLike._id },
+            },
+            { new: true }
+          );
         res.status(200).json({
             status: 200,
             message:"Like added successfully",
             data: addLike
         })
     }
+}
     }
     catch (error) {
         res.status(500).json({

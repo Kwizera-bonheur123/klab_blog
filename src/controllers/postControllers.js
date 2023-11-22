@@ -1,6 +1,7 @@
 import { getPostById, newPost, getPost, changePost, postComment,removePost } from "../service/post";
 import { removeComment } from "../service/Comment";
 import { addLike } from "../service/like";
+import { addUnLike } from "../service/unLike";
 
 // createpost
 export const createpost = async (req,res) => {
@@ -90,6 +91,18 @@ export const deleteComment = async (req,res) => {
 export const likes = async(req,res) =>{
     try{
         const addOrRemoveLike = addLike(req,res);
+    } catch(error){
+        res.status(200).json({
+            status:200,
+            message:"Fail to add like",
+            error:error.message
+        })
+    }
+}
+
+export const unLikes = async(req,res) =>{
+    try{
+        const addOrRemoveUnLike = addUnLike(req,res);
     } catch(error){
         res.status(200).json({
             status:200,

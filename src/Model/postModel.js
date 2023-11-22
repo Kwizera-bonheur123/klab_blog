@@ -50,6 +50,12 @@ const postSchema = new mongoose.Schema({
             ref:'like'
         }
     ],
+    unLikes:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'unLike'
+        }
+    ],
     views:{
         type: Number,
         default: 0

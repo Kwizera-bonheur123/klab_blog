@@ -25,7 +25,10 @@ export const newPost = async (req,res) => {
 
 export const getPost = async(req,res) => {
     try {
-        const getpost = await post.find().populate({path:'comments', populate:{path:'author',select:'first lastname profile email'}}).populate({path:'author', select: 'first lastname profile'});
+        const getpost = await post.find().populate({path:'comments', populate:{path:'author',select:'first lastname profile email'}})
+        .populate({path:'author', select: 'first lastname profile'})
+        .populate({path:"likes",populate:{path:"author"}})
+        .populate({path:"unLikes",populate:{path:"author"}});
         return res.status(200).json({status: "Success",message: "Data Retrieved Successfully",posts: getpost});
       } catch (error) {
         return res.status(500).json({
