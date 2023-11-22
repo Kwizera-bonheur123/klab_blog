@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const commentSchema = new mongoose.Schema({
     postId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'blog',
+        ref: 'post',
         required:true
     },
     content: {
@@ -20,7 +20,7 @@ const commentSchema = new mongoose.Schema({
 export const Comment = mongoose.model('comments', commentSchema);
 
 
-const blogSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
     title:{
         type: String,
         require: true
@@ -44,6 +44,18 @@ const blogSchema = new mongoose.Schema({
             ref: 'comments',
         },
     ],
+    likes:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'like'
+        }
+    ],
+    unLikes:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:'unLike'
+        }
+    ],
     views:{
         type: Number,
         default: 0
@@ -51,5 +63,5 @@ const blogSchema = new mongoose.Schema({
 });
 
 
-const blog = mongoose.model("blogs",blogSchema);
-export default blog
+const post = mongoose.model("posts",postSchema);
+export default post
